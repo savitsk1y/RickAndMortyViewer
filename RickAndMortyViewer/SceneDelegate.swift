@@ -10,20 +10,26 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    let apiManager = ApiManager(networkService: NetworkService())
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let navController = UINavigationController()
-        let viewController = ViewController()
-        viewController.view.backgroundColor = .red
+        
+        let viewModel = CharacterTableViewModel(apiManager: apiManager)
+        let viewController = CharacterTableViewController(viewModel: viewModel)
         navController.pushViewController(viewController, animated: false)
+        viewModel.selectedCharacter = { [weak self] id in
+            print("Selected Character: \(id)")
+        }
         
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = navController
         self.window = window
         window.makeKeyAndVisible()
     }
-
+    
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

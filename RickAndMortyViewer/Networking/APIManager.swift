@@ -7,24 +7,39 @@
 
 import Foundation
 
-protocol APIManagerProtocol {
+protocol ApiManagerProtocol {
     func fetchCharacters() async -> [CharacterModel]
 }
 
-struct APIManager {
+struct ApiManager: ApiManagerProtocol {
     
-    enum Endpoint: String {
-        case characters = "character"
-        case locations = "location"
-        case episodes = "episode"
+    private let baseURL = "https://rickandmortyapi.com/api/"
+
+    enum Endpoint {
+        case characters
+        case character(id: Int)
+        case locations
+        case episodes
+        
+        static func buildPath(for endpoint: Self) -> String {
+            switch endpoint {
+            case .characters:
+                "character"
+            case .character(let id):
+                "character/\(id)"
+            case .locations:
+                "location"
+            case .episodes:
+                "episode"
+            }
+        }
     }
 
     let networkService: NetworkServiceProtocol
 
-    private let baseURL = "https://rickandmortyapi.com/api/"
-
     func fetchCharacters() async -> [CharacterModel] {
-        let url = buildURL(for: .characters)
+        let path = baseURL + Endpoint.buildPath(for: .characters)
+        let url = URL(string: path)!
         
         do {
             let data = try await networkService.fetchData(from: url)
@@ -34,9 +49,19 @@ struct APIManager {
             return []
         }
     }
-    
-    private func buildURL(for endpoint: Endpoint) -> URL {
-        URL(string: "\(baseURL)\(endpoint.rawValue)")!
+
+    func fetchCharacter(id: Int) async -> CharacterModel? {
+        let path = baseURL + Endpoint.buildPath(for: .character(id: id))
+        let url = URL(string: path)!
+        
+        do {
+            let data = try await networkService.fetchData(from: url)
+            let character = try JSONDecoder().decode(CharacterModel.self, from: data)
+            return character
+        } catch {
+            print("Error: \(error)")
+            return nil
+        }
     }
     
 }
