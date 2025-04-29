@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 protocol CharacterListControllerProtocol: AnyObject {
     func display(characters: [Character])
 }
@@ -42,10 +41,8 @@ class CharacterListController: UITableViewController, CharacterListControllerPro
     }
     
     func display(characters: [Character]) {
-        DispatchQueue.main.async {
-            self.characters = characters
-            self.tableView.reloadData()
-        }
+        self.characters = characters
+        self.tableView.reloadData()
     }
     
     // MARK: - Table view data source
@@ -53,13 +50,19 @@ class CharacterListController: UITableViewController, CharacterListControllerPro
         characters.count
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UIDevice.current.userInterfaceIdiom == .pad ? 208 : 104
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CharacterCell", for: indexPath) as? CharacterCell else { return UITableViewCell() }
         
         let characterModel = characters[indexPath.row]
         cell.titleLabel.text = characterModel.name
+        let fontSize = UIDevice.current.userInterfaceIdiom == .pad ? 36.0 : 20.0
+        cell.titleLabel.font = .systemFont(ofSize: fontSize, weight: .regular)
         
-        imageLoader.obtainImageWithPath(imagePath: characterModel.image) { (image) in
+        imageLoader.obtainImageWithPath(imagePath: characterModel.image) { image in
             guard let cell = tableView.cellForRow(at: indexPath) as? CharacterCell else { return }
             cell.iconImage.image = image
         }
@@ -69,7 +72,7 @@ class CharacterListController: UITableViewController, CharacterListControllerPro
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let character = characters[indexPath.row]
-        router?.routeToDetail(characterID: character.id)
+        router?.routeToDetail(characterId: character.id)
     }
     
 }

@@ -6,15 +6,15 @@
 //
 
 protocol CharacterListRouterProtocol {
-    func routeToDetail(characterID: Int)
+    func routeToDetail(characterId: Int)
 }
 
 class CharacterListRouter: CharacterListRouterProtocol {
     weak var viewController: CharacterListController?
 
-    func routeToDetail(characterID: Int) {
-        let detailVC = CharacterDetailsViewController()
-        detailVC.characterID = characterID
+    func routeToDetail(characterId: Int) {
+        let detailVC = CharacterDetailsController()
+        detailVC.characterId = characterId
         viewController?.navigationController?.pushViewController(detailVC, animated: true)
     }
 }

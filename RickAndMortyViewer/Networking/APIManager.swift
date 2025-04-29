@@ -9,7 +9,7 @@ import Foundation
 
 protocol ApiManagerProtocol {
     func fetchCharacters() async throws -> [CharacterModel]
-    func fetchCharacter(id: Int) async throws -> CharacterModel?
+    func fetchCharacter(id: Int) async throws -> CharacterModel
 }
 
 struct ApiManager: ApiManagerProtocol {
@@ -45,7 +45,7 @@ struct ApiManager: ApiManagerProtocol {
         return characterResponse.results
     }
 
-    func fetchCharacter(id: Int) async throws -> CharacterModel? {
+    func fetchCharacter(id: Int) async throws -> CharacterModel {
         let path = baseURL + Endpoint.buildPath(for: .character(id: id))
         let url = URL(string: path)!
         

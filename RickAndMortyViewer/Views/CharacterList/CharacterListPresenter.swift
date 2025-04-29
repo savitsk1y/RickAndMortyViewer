@@ -5,7 +5,7 @@
 //  Created by Andrii Savytskyi on 28.04.2025.
 //
 
-import UIKit
+import Foundation
 
 protocol CharacterListPresenterProtocol {
     func present(characters: [Character])
@@ -15,6 +15,8 @@ class CharacterListPresenter: CharacterListPresenterProtocol {
     weak var viewController: CharacterListControllerProtocol?
 
     func present(characters: [Character]) {
-        viewController?.display(characters: characters)
+        DispatchQueue.main.async { [weak self] in
+            self?.viewController?.display(characters: characters)
+        }
     }
 }

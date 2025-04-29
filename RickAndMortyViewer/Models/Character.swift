@@ -6,7 +6,6 @@
 //
 
 struct Character {
-    
     let id: Int
     let image: String
     let name: String
@@ -34,5 +33,4 @@ struct Character {
         self.gender = model.gender
         self.origin = model.origin.name
     }
-
 }
