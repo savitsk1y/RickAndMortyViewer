@@ -29,6 +29,7 @@
                         <constraints>
                             <constraint firstItem="isx-IG-skq" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.7" id="8Km-ok-Ge4"/>
                             <constraint firstItem="isx-IG-skq" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="FP4-Gn-KC6"/>
+                            <constraint firstItem="isx-IG-skq" firstAttribute="height" relation="lessThanOrEqual" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="0.7" id="GJj-qa-sVd"/>
                             <constraint firstItem="isx-IG-skq" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="c4z-0d-6cg"/>
                         </constraints>
                     </view>

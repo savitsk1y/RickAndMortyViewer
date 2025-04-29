@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum NetworkError: Error {
+    case emptyData
+    case invalidStatusCode
+}
+
 protocol NetworkServiceProtocol {
     func fetchData(from url: URL) async throws -> Data
 }
