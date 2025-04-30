@@ -27,7 +27,7 @@ class CharacterListController: UITableViewController, CharacterListControllerPro
     }
     
     private func setup() {
-        tableView.register(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        tableView.register(CharacterCell.self, forCellReuseIdentifier: cellIdentifier)
 
         let interactor = CharacterListInteractor()
         let presenter = CharacterListPresenter()
@@ -58,9 +58,9 @@ class CharacterListController: UITableViewController, CharacterListControllerPro
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CharacterCell", for: indexPath) as? CharacterCell else { return UITableViewCell() }
         
         let characterModel = characters[indexPath.row]
-        cell.titleLabel.text = characterModel.name
+        cell.label.text = characterModel.name
         let fontSize = UIDevice.current.userInterfaceIdiom == .pad ? 36.0 : 20.0
-        cell.titleLabel.font = .systemFont(ofSize: fontSize, weight: .regular)
+        cell.label.font = .systemFont(ofSize: fontSize, weight: .regular)
         
         imageLoader.obtainImageWithPath(imagePath: characterModel.image) { image in
             guard let cell = tableView.cellForRow(at: indexPath) as? CharacterCell else { return }

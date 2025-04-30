@@ -13,12 +13,16 @@ protocol CharacterDetailsControllerProtocol: AnyObject {
 
 class CharacterDetailsController: UIViewController, CharacterDetailsControllerProtocol {
    
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var labelGender: UILabel!
-    @IBOutlet weak var labelOrigin: UILabel!
-    @IBOutlet weak var labelSpecies: UILabel!
-    @IBOutlet weak var labelStatus: UILabel!
+    let imageView = UIImageView()
+    let labelGender = UILabel()
+    let labelOrigin = UILabel()
+    let labelSpecies = UILabel()
+    let labelStatus = UILabel()
     
+    internal let scrollView = UIScrollView()
+    internal let contentView = UIView()
+    internal let labelsView = UIView()
+
     private var imageLoader = ImageLoader()
     private var character: Character?
     private var interactor: CharacterDetailsInteractorProtocol?
@@ -26,6 +30,7 @@ class CharacterDetailsController: UIViewController, CharacterDetailsControllerPr
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         setup()
         guard let characterId else { return }
         interactor?.fetchCharacter(id: characterId)
